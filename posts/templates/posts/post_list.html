@@ -1,0 +1,13 @@
+<h3>Welcome to our Django Project</h3>
+
+
+<ul>
+ {% comment %} {% for post in posts %}
+ <li><a href="/post/{{post.id}}">{{post}}</a></li>
+ {% endfor %} {% endcomment %}
+
+  {% for post in post_list %}
+ <li><a href="/post/{{post.id}}">{{post}}</a></li>
+ {% endfor %}
+
+</ul>
