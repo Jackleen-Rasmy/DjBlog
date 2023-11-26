@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'taggit',
     'django_extensions',
     'pydot',
-    "django_bootstrap5",
+    'django_bootstrap5',
+    'rest_framework',
+    
 
 
 ]
