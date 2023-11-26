@@ -1,18 +1,33 @@
 from django.shortcuts import render, redirect
 from .models import *
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 # CRUD using FBV
 
 def post_list(request):
     posts = Post.objects.all()                               # :query
-    context = {'posts' : posts}                              # :context
+    context = {'post_list' : posts}                              # :context
     return render(request, 'posts/post_list.html', context)  # : Template
 
-def post_detail(request, post_id):
-    post = Post.objects.get(id=post_id)
-    context = {'post':post}
+def post_detail(request, pk):
+    post = Post.objects.get(id=pk)
+    comments = Comments.objects.filter(post=post)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            myform = form.save(commit=False)
+            myform.post = post
+            myform.save()
+            
+    else:
+        form = CommentForm()
+    
+    context = {
+        'post':post,
+        'comments':comments,
+        'form':form,
+        }
     return render(request, 'posts/post_detail.html', context)
+
 
 def create_post(request):
     if request.method == 'POST':
@@ -53,28 +68,4 @@ def delete_post(request,pk):
         
 
 
-# CRUD using CBV
-class PostList(ListView):
-    model = Post
-    
-class PostDetail(DetailView):
-    model = Post
-    
-class CreatePost(CreateView):
-    model = Post
-    fields = '__all__'                        # will lookup for (post_form.html)
-    success_url = '/posts/'
-
-
-class EditPost(UpdateView):
-    model = Post
-    fields = '__all__'
-    success_url = '/posts/'
-    template_name = 'posts/edit.html'
-    
-    
-class DeletePost(DeleteView):
-    model = Post
-    success_url = '/posts/'
-    
 

@@ -6,3 +6,8 @@ class PostForm(forms.ModelForm):
         model = Post
         exclude = ('author',)
         
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ['user', 'comment']
+        
