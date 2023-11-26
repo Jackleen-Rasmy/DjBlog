@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'posts',
     'taggit',
     'django_extensions',
     'pydot',
     'django_bootstrap5',
     'rest_framework',
+    'django_filters',
     
 
 
@@ -78,6 +80,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

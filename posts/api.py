@@ -3,6 +3,8 @@ from .serializers import PostSerializer
 from .models import Post
 from rest_framework.response import Response
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 @api_view(['GET'])
 def post_list_api(request):
@@ -32,8 +34,12 @@ def post_detail_api(request,id):
 class PostListAPI(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
-  
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['title', 'draft', 'author']
+    search_fields = ['title', 'content']
+    ordering_fields = ['publish_date']
+    
+    
 class PostDetailAPI(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer   
